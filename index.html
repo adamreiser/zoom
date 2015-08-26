@@ -95,8 +95,8 @@ $ ln -s <span class="pl-s"><span class="pl-pds">$(</span>which ggrep<span class=
 <h2>
 <a id="how-to-use" class="anchor" href="#how-to-use" aria-hidden="true"><span class="octicon octicon-link"></span></a>How to use</h2>
 
-<div class="highlight highlight-bash"><pre>$ z --help
-Usage: z [OPTIONS] <span class="pl-k">&lt;</span>pattern<span class="pl-k">&gt;</span>
+<pre><code>$ z --help
+Usage: z [OPTIONS] &lt;pattern&gt;
     -a, --add=NAME                   Add a new profile with specified name
     -c, --cache                      Show previous results
     -d, --delete=NAME                Delete profile with specified name
@@ -105,17 +105,18 @@ Usage: z [OPTIONS] <span class="pl-k">&lt;</span>pattern<span class="pl-k">&gt;<
         --examples                   Show some examples
         --find                       Use the zoom_find profile
     -g, --go=NUM                     Open editor to search result NUM
-    -h, --help                       Display this <span class="pl-c1">help</span> message
+    -h, --help                       Display this help message
     -l, --list                       List profiles
-        --list-profile-names         List profile names <span class="pl-k">for</span> <span class="pl-smi">completion</span> functions
-        --list-tags                  List tags <span class="pl-k">for</span> <span class="pl-smi">completion</span> functions
+        --list-profile-names         List profile names for completion functions
+        --list-tags                  List tags for completion functions
         --pager                      Treat Zoom as a pager (internal use only)
-    -r, --repeat                     Repeat the last Zoom <span class="pl-c1">command</span>
+    -r, --repeat                     Repeat the last Zoom command
         --rc                         Create default .zoomrc file
         --rename=NAME                Rename the current profile
     -s, --switch=NAME                Switch to profile with specified name
-    -u, --use=NAME                   Use specified profile one <span class="pl-k">time</span> only
-    -w, --which                      Display the current profile</pre></div>
+    -u, --use=NAME                   Use specified profile one time only
+    -w, --which                      Display the current profile
+</code></pre>
 
 <p>You can use Zoom basically the same way you use ag/ack/grep.</p>
 
@@ -126,21 +127,22 @@ Usage: z [OPTIONS] <span class="pl-k">&lt;</span>pattern<span class="pl-k">&gt;<
 use Zoom to search for "find_in_path" in the Zoom source directory,
 you would see something like the following:</p>
 
-<div class="highlight highlight-bash"><pre>$ z find_in_path
+<pre><code>$ z find_in_path
 zoom.rb
 [1] 29:            op = find_in_path(operator)
-[2] 33:                self[<span class="pl-s"><span class="pl-pds">"</span>operator<span class="pl-pds">"</span></span>] = find_in_path(<span class="pl-s"><span class="pl-pds">"</span>grep<span class="pl-pds">"</span></span>)
-[3] 61:    <span class="pl-k">if</span> (find_in_path(<span class="pl-s"><span class="pl-pds">"</span>ag<span class="pl-pds">"</span></span>))
-[4] 75:    <span class="pl-k">if</span> (find_in_path(<span class="pl-s"><span class="pl-pds">"</span>ack<span class="pl-pds">"</span></span>))
-[5] 77:    elsif (find_in_path(<span class="pl-s"><span class="pl-pds">"</span>ack-grep<span class="pl-pds">"</span></span>))
-[6] 128:    editor = find_in_path(ENV[<span class="pl-s"><span class="pl-pds">"</span>EDITOR<span class="pl-pds">"</span></span>])
-[7] 130:        editor = find_in_path(<span class="pl-s"><span class="pl-pds">"</span>vim<span class="pl-pds">"</span></span>)
-[8] 133:        editor = find_in_path(<span class="pl-s"><span class="pl-pds">"</span>vi<span class="pl-pds">"</span></span>)
+[2] 33:                self["operator"] = find_in_path("grep")
+[3] 61:    if (find_in_path("ag"))
+[4] 75:    if (find_in_path("ack"))
+[5] 77:    elsif (find_in_path("ack-grep"))
+[6] 128:    editor = find_in_path(ENV["EDITOR"])
+[7] 130:        editor = find_in_path("vim")
+[8] 133:        editor = find_in_path("vi")
 [9] 157:def find_in_path(cmd)
-[10] 456:    <span class="pl-k">if</span> (find_in_path(<span class="pl-s"><span class="pl-pds">"</span>ag<span class="pl-pds">"</span></span>))
-[11] 458:    elsif (find_in_path(<span class="pl-s"><span class="pl-pds">"</span>ack<span class="pl-pds">"</span></span>))
-[12] 460:    elsif (find_in_path(<span class="pl-s"><span class="pl-pds">"</span>ack-grep<span class="pl-pds">"</span></span>))
-[13] 487:    ed = find_in_path(options[<span class="pl-s"><span class="pl-pds">"</span>editor<span class="pl-pds">"</span></span>])</pre></div>
+[10] 456:    if (find_in_path("ag"))
+[11] 458:    elsif (find_in_path("ack"))
+[12] 460:    elsif (find_in_path("ack-grep"))
+[13] 487:    ed = find_in_path(options["editor"])
+</code></pre>
 
 <p>Now you can jump to result 9 with the following command:</p>
 
@@ -177,11 +179,14 @@ however modify it.</p>
 <a id="convenient-symlinks" class="anchor" href="#convenient-symlinks" aria-hidden="true"><span class="octicon octicon-link"></span></a>Convenient symlinks</h2>
 
 <p>If you find it tedious to use Zoom with the flags, there are currently
-4 convience symlinks that are supported.</p>
+5 convience symlinks that are supported.</p>
 
 <ul>
 <li>
 <code>zc</code> is the same as <code>z --cache</code> or <code>z -c</code>
+</li>
+<li>
+<code>zf</code> is the same as <code>z --find</code> or <code>z -f</code>
 </li>
 <li>
 <code>zg</code> is the same as <code>z --go</code> or <code>z -g</code>
@@ -251,16 +256,6 @@ your <code>~/.zshrc</code>:</p>
 functions:</p>
 
 <div class="highlight highlight-bash"><pre>$ rm -f <span class="pl-k">~</span>/.zcompdump<span class="pl-k">;</span> compinit</pre></div>
-
-<h2>
-<a id="todo" class="anchor" href="#todo" aria-hidden="true"><span class="octicon octicon-link"></span></a>TODO</h2>
-
-<ul>
-<li>Convert to ruby gem</li>
-<li>Need to test to see if any ag/ack/grep flags break functionality</li>
-<li>Make comments/documentation more thorough</li>
-<li>Add documentation for making custom classes for profiles</li>
-</ul>
       </section>
     </div>
 
