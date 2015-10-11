@@ -190,13 +190,13 @@ modified.</p>
 <p>If you want to create your own custom profile classes, you can simply
 define your classes in <code>~/.zoom_profiles.rb</code>:</p>
 
-<div class="highlight highlight-source-ruby"><pre><span class="pl-k">require</span> <span class="pl-s"><span class="pl-pds">"</span>zoom_profile<span class="pl-pds">"</span></span>
+<div class="highlight highlight-source-ruby"><pre><span class="pl-k">require</span> <span class="pl-s"><span class="pl-pds">"</span>zoom<span class="pl-pds">"</span></span>
 
-<span class="pl-k">class</span> <span class="pl-en">LSProfile<span class="pl-e"> &lt; ZoomProfile</span></span>
-    <span class="pl-k">def</span> <span class="pl-en">exe</span>(<span class="pl-smi">args</span>, <span class="pl-smi">pattern</span>)
-        <span class="pl-c"># You can redefine this method if you want, or leave it out to</span>
-        <span class="pl-c"># accept the default functionality.</span>
-    <span class="pl-k">end</span>
+<span class="pl-k">class</span> <span class="pl-en">ListProfile<span class="pl-e"> &lt; Zoom::Profile</span></span>
+    <span class="pl-c"># You can redefine this method if you want, or leave it out to</span>
+    <span class="pl-c"># accept the default functionality.</span>
+    <span class="pl-c"># def exe(args, pattern)</span>
+    <span class="pl-c"># end</span>
 
     <span class="pl-k">def</span> <span class="pl-en">initialize</span>(
         operator <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>ls<span class="pl-pds">"</span></span>,
@@ -208,7 +208,7 @@ define your classes in <code>~/.zoom_profiles.rb</code>:</p>
     <span class="pl-k">end</span>
 <span class="pl-k">end</span>
 
-<span class="pl-k">class</span> <span class="pl-en">HelloProfile<span class="pl-e"> &lt; ZoomProfile</span></span>
+<span class="pl-k">class</span> <span class="pl-en">HelloProfile<span class="pl-e"> &lt; Zoom::Profile</span></span>
     <span class="pl-k">def</span> <span class="pl-en">initialize</span>(
         operator <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>echo<span class="pl-pds">"</span></span>,
         flags <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>,
@@ -256,7 +256,7 @@ $ ./test <span class="pl-c"># same as 'z --use test'</span></pre></div>
 <p>Zoom allows to you create profiles for commands other than
 ag/ack/grep. This may make Zoom a friendly tool for Penetration
 Testers or Security Researchers who are looking for a simple way to
-store exploits. I included a profile for searching for hard-coded
+store exploits. I've included a profile for searching for hard-coded
 passwords.</p>
 
 <h2>
@@ -296,8 +296,7 @@ Zoom which attempts to streamline the process for you.</p>
 <p>For some simple zsh completion with Zoom, you can add the following to
 your <code>~/.zshrc</code>:</p>
 
-<pre><code>fpath=(/path/to/zoom/repo/completions $fpath)
-</code></pre>
+<div class="highlight highlight-source-shell"><pre>fpath=(/path/to/zoom/repo/completions <span class="pl-smi">$fpath</span>)</pre></div>
 
 <p>You may need to run the following command to update your completion
 functions:</p>
