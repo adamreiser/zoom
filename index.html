@@ -119,7 +119,13 @@ Usage: z [OPTIONS] &lt;pattern&gt;
     -w, --which                      Display the current profile
 </code></pre>
 
-<p>You can use Zoom basically the same way you use ag/ack/grep.</p>
+<p>You can use Zoom basically the same way you use ag/ack/grep. If you
+encounter any errors, most Zoom exceptions should be fixable by
+running:</p>
+
+<div class="highlight highlight-source-shell"><pre>$ z --rc</pre></div>
+
+<p>If you are still having issues, please create a GitLab issue.</p>
 
 <h2>
 <a id="shortcuts" class="anchor" href="#shortcuts" aria-hidden="true"><span class="octicon octicon-link"></span></a>Shortcuts</h2>
@@ -205,6 +211,7 @@ define your classes in <code>~/.zoom_profiles.rb</code>:</p>
         append <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>
     )
         <span class="pl-k">super</span>(operator, flags, envprepend, append)
+        <span class="pl-smi">@taggable</span> <span class="pl-k">=</span> <span class="pl-c1">false</span> <span class="pl-c"># Don't allows tagging of results</span>
     <span class="pl-k">end</span>
 <span class="pl-k">end</span>
 
@@ -216,6 +223,7 @@ define your classes in <code>~/.zoom_profiles.rb</code>:</p>
         append <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-cce">\"</span>Hello, world!<span class="pl-cce">\"</span><span class="pl-pds">"</span></span>
     )
         <span class="pl-k">super</span>(operator, flags, envprepend, append)
+        <span class="pl-smi">@immutable</span> <span class="pl-k">=</span> <span class="pl-c1">true</span> <span class="pl-c"># Don't allow profile changes</span>
     <span class="pl-k">end</span>
 <span class="pl-k">end</span></pre></div>
 
@@ -257,7 +265,15 @@ $ ./test <span class="pl-c"># same as 'z --use test'</span></pre></div>
 ag/ack/grep. This may make Zoom a friendly tool for Penetration
 Testers or Security Researchers who are looking for a simple way to
 store exploits. I've included a profile for searching for hard-coded
-passwords.</p>
+passwords. The passwords profile is immutable so if you want to change
+the regex used, you can run the following command to change the code:</p>
+
+<div class="highlight highlight-source-shell"><pre>$ gem open ruby-zoom</pre></div>
+
+<p>Navigate to <code>lib/zoom/profile/passwords.rb</code> to make changes. If you
+want the revert your changes, run the following command:</p>
+
+<div class="highlight highlight-source-shell"><pre>$ gem pristine ruby-zoom</pre></div>
 
 <h2>
 <a id="supported-editors" class="anchor" href="#supported-editors" aria-hidden="true"><span class="octicon octicon-link"></span></a>Supported editors</h2>
