@@ -70,14 +70,12 @@ $ rake install</pre></div>
 <h4>
 <a id="user-packaged" class="anchor" href="#user-packaged" aria-hidden="true"><span class="octicon octicon-link"></span></a>User Packaged</h4>
 
-<p>Note: These are likely broken since Zoom 3.0!</p>
-
 <ul>
 <li><p><img src="http://www.monitorix.org/imgs/archlinux.png" alt="logo" title="arch logo">
-Arch Linux: in the
-<a href="https://aur.archlinux.org/packages/zoom-git">AUR</a></p></li>
-<li><p><a href="http://firef0x.github.io/archrepo.html">Firef0x's</a> Arch Linux
-Repository</p></li>
+Arch Linux: via
+<a href="https://aur.archlinux.org/packages/ruby-zoom">AUR</a>.</p></li>
+<li><p>Via Firef0x's Arch Linux Repository.
+(<strong><a href="http://firef0x.github.io/archrepo.html">Guide</a></strong>)</p></li>
 </ul>
 
 <h2>
@@ -87,7 +85,8 @@ Repository</p></li>
 <a href="http://brew.sh">homebrew</a> and then run the following commands before
 using Zoom:</p>
 
-<div class="highlight highlight-source-shell"><pre>$ brew install gnu-sed grep
+<div class="highlight highlight-source-shell"><pre>$ brew tap homebrew/dupes
+$ brew install gnu-sed grep
 $ mkdir -p <span class="pl-k">~</span>/bin
 $ <span class="pl-c1">cd</span> <span class="pl-k">~</span>/bin
 $ ln -s <span class="pl-s"><span class="pl-pds">$(</span>which gsed<span class="pl-pds">)</span></span> sed
