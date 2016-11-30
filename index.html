@@ -4,7 +4,7 @@
   <head>
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="description" content="Zoom : A wrapper tool for ag/ack/grep">
+    <meta name="description" content="Zoom : A wrapper tool for ag/ack/grep/pt">
 
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
@@ -19,7 +19,7 @@
           <a id="forkme_banner" href="https://github.com/mjwhitta/zoom">View on GitHub</a>
 
           <h1 id="project_title">Zoom</h1>
-          <h2 id="project_tagline">A wrapper tool for ag/ack/grep</h2>
+          <h2 id="project_tagline">A wrapper tool for ag/ack/grep/pt</h2>
 
             <section id="downloads">
               <a class="zip_download_link" href="https://github.com/mjwhitta/zoom/zipball/master">Download this project as a .zip file</a>
@@ -106,7 +106,7 @@ running:</p>
 
 <p><code>WARNING: This resets all your settings!</code></p>
 
-<p>If you are still having issues, please create a GitLab issue.</p>
+<p>If you are still having issues, please create a <a href="https://gitlab.com/mjwhitta/zoom/issues">GitLab issue</a>.</p>
 
 <h2>
 <a id="shortcuts" class="anchor" href="#shortcuts" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Shortcuts</h2>
@@ -115,24 +115,34 @@ running:</p>
 use Zoom to search for "ScoobyDoo" in the Zoom source directory, you
 would see something like the following:</p>
 
-<pre><code>$ z ScoobyDoo
+<pre><code>$ z scoobydoo
+Gemfile
+[1] 8: gem "scoobydoo"
+
 lib/zoom/profile/ack.rb
-[1] 4:        if ((o == "ack") &amp;&amp; ScoobyDoo.where_are_you("ack-grep"))
+[2] 4:        if ((o == "ack") &amp;&amp; ScoobyDoo.where_are_you("ack-grep"))
 
 lib/zoom/profile_manager.rb
-[2] 24:             return op if (ScoobyDoo.where_are_you(op))
-[3] 33:             if (ScoobyDoo.where_are_you(op))
+[3] 2: require "scoobydoo"
+[4] 24:             return op if (ScoobyDoo.where_are_you(op))
+[5] 33:             if (ScoobyDoo.where_are_you(op))
 
 lib/zoom/profile.rb
-[4] 165:             op = ScoobyDoo.where_are_you(o)
+[6] 2: require "scoobydoo"
+[7] 143:             op = ScoobyDoo.where_are_you(o)
 
 lib/zoom/wish/editor_wish.rb
-[5] 20:         if (ScoobyDoo.where_are_you(args))
+[8] 2: require "scoobydoo"
+[9] 20:         if (ScoobyDoo.where_are_you(args))
 
 lib/zoom/config.rb
-[6] 60:             e = ScoobyDoo.where_are_you(ed)
-[7] 68:         e = ScoobyDoo.where_are_you(e)
-[8] 69:         e = ScoobyDoo.where_are_you("vi") if (e.nil?)
+[10] 3: require "scoobydoo"
+[11] 68:             e = ScoobyDoo.where_are_you(ed)
+[12] 76:         e = ScoobyDoo.where_are_you(e)
+[13] 77:         e = ScoobyDoo.where_are_you("vi") if (e.nil?)
+
+zoom.gemspec
+[14] 33:   s.add_runtime_dependency("scoobydoo", "~&gt; 0.1", "&gt;= 0.1.4")
 </code></pre>
 
 <p>Now you can jump to result 7 with the following commands:</p>
@@ -168,7 +178,8 @@ following command to list your profiles:</p>
 
 <p>These profiles do not need to be limited to ag/ack/grep/pt shortcuts.</p>
 
-<p>Note: The <code>find</code> profile is special and should return a list of files.</p>
+<p>Note: The <code>find</code> profile is "special" and should return a list of
+files.</p>
 
 <h3>
 <a id="custom-profile-classes" class="anchor" href="#custom-profile-classes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Custom profile classes</h3>
@@ -185,14 +196,17 @@ define your classes in <code>~/.config/zoom/</code>:</p>
     <span class="pl-c"># end</span>
 
     <span class="pl-k">def</span> <span class="pl-en">initialize</span>(
-        name,
-        operator <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>,
-        flags <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>,
-        before <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>, <span class="pl-c"># For use with env vars, such as PATH</span>
-        after <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span> <span class="pl-c"># For use with follow up commands or redirection</span>
+        name <span class="pl-k">=</span> <span class="pl-c1">nil</span>,
+        operator <span class="pl-k">=</span> <span class="pl-c1">nil</span>,
+        flags <span class="pl-k">=</span> <span class="pl-c1">nil</span>,
+        before <span class="pl-k">=</span> <span class="pl-c1">nil</span>, <span class="pl-c"># Env vars, such as PATH</span>
+        after <span class="pl-k">=</span> <span class="pl-c1">nil</span> <span class="pl-c"># Follow up commands or redirection</span>
     )
-        <span class="pl-k">super</span>(name, <span class="pl-s"><span class="pl-pds">"</span>ls<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>--color -AFhl<span class="pl-pds">"</span></span>, before, <span class="pl-s"><span class="pl-pds">"</span>2&gt;/dev/null<span class="pl-pds">"</span></span>)
-        <span class="pl-smi">@taggable</span> <span class="pl-k">=</span> <span class="pl-c1">false</span> <span class="pl-c"># Don't tag results</span>
+        after <span class="pl-k">||=</span> <span class="pl-s"><span class="pl-pds">"</span>2&gt;/dev/null<span class="pl-pds">"</span></span>
+        flags <span class="pl-k">||=</span> <span class="pl-s"><span class="pl-pds">"</span>--color -AFhl<span class="pl-pds">"</span></span>
+        operator <span class="pl-k">||=</span> <span class="pl-s"><span class="pl-pds">"</span>ls<span class="pl-pds">"</span></span>
+        <span class="pl-k">super</span>(name, operator, flags, before, after)
+        <span class="pl-smi">@taggable</span> <span class="pl-k">=</span> <span class="pl-c1">false</span> <span class="pl-c"># Don't tag results (defaults to false)</span>
     <span class="pl-k">end</span>
 <span class="pl-k">end</span></pre></div>
 
@@ -200,14 +214,76 @@ define your classes in <code>~/.config/zoom/</code>:</p>
 
 <span class="pl-k">class</span> <span class="pl-en">HelloProfile<span class="pl-e"> &lt; Zoom::Profile</span></span>
     <span class="pl-k">def</span> <span class="pl-en">initialize</span>(
-        name,
-        operator <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>,
-        flags <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>,
-        before <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>, <span class="pl-c"># For use with env vars, such as PATH</span>
-        after <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span> <span class="pl-c"># For use with follow up commands or redirection</span>
+        name <span class="pl-k">=</span> <span class="pl-c1">nil</span>,
+        operator <span class="pl-k">=</span> <span class="pl-c1">nil</span>,
+        flags <span class="pl-k">=</span> <span class="pl-c1">nil</span>,
+        before <span class="pl-k">=</span> <span class="pl-c1">nil</span>, <span class="pl-c"># Env vars, such as PATH</span>
+        after <span class="pl-k">=</span> <span class="pl-c1">nil</span> <span class="pl-c"># Follow up commands or redirection</span>
     )
-        <span class="pl-k">super</span>(name, <span class="pl-s"><span class="pl-pds">"</span>echo<span class="pl-pds">"</span></span>, flags, before, <span class="pl-s"><span class="pl-pds">"</span>Hello world!<span class="pl-pds">"</span></span>)
-        <span class="pl-smi">@taggable</span> <span class="pl-k">=</span> <span class="pl-c1">false</span> <span class="pl-c"># Don't tag results</span>
+        after <span class="pl-k">||=</span> <span class="pl-s"><span class="pl-pds">"</span>Hello world!<span class="pl-pds">"</span></span>
+        operator <span class="pl-k">||=</span> <span class="pl-s"><span class="pl-pds">"</span>echo<span class="pl-pds">"</span></span>
+        <span class="pl-k">super</span>(name, operator, flags, before, after)
+        <span class="pl-smi">@taggable</span> <span class="pl-k">=</span> <span class="pl-c1">false</span> <span class="pl-c"># Don't tag results (defaults to false)</span>
+    <span class="pl-k">end</span>
+<span class="pl-k">end</span></pre></div>
+
+<div class="highlight highlight-source-ruby"><pre><span class="pl-c"># search_profile.rb</span>
+
+<span class="pl-k">class</span> <span class="pl-en">SearchProfile<span class="pl-e"> &lt; Zoom::Profile</span></span>
+    <span class="pl-k">def</span> <span class="pl-en">initialize</span>(
+        name <span class="pl-k">=</span> <span class="pl-c1">nil</span>,
+        operator <span class="pl-k">=</span> <span class="pl-c1">nil</span>,
+        flags <span class="pl-k">=</span> <span class="pl-c1">nil</span>,
+        before <span class="pl-k">=</span> <span class="pl-c1">nil</span>, <span class="pl-c"># Env vars, such as PATH</span>
+        after <span class="pl-k">=</span> <span class="pl-c1">nil</span> <span class="pl-c"># Follow up commands or redirection</span>
+    )
+        flags <span class="pl-k">||=</span> <span class="pl-s"><span class="pl-pds">"</span>--case-insensitive<span class="pl-pds">"</span></span>
+        operator <span class="pl-k">||=</span> <span class="pl-s"><span class="pl-pds">"</span>some_search_tool<span class="pl-pds">"</span></span>
+        <span class="pl-k">super</span>(name, operator, flags, before, after)
+        <span class="pl-smi">@format_flags</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>--color=never -EHInRs<span class="pl-pds">"</span></span> <span class="pl-c"># Mirror grep output</span>
+        <span class="pl-smi">@taggable</span> <span class="pl-k">=</span> <span class="pl-c1">true</span>
+    <span class="pl-k">end</span>
+
+    <span class="pl-k">def</span> <span class="pl-en">translate</span>(<span class="pl-smi">from</span>)
+        to <span class="pl-k">=</span> <span class="pl-c1">Array</span>.<span class="pl-k">new</span>
+        from.each <span class="pl-k">do </span>|<span class="pl-smi">flag</span>, <span class="pl-smi">value</span>|
+            <span class="pl-k">case</span> flag
+                <span class="pl-k">when</span> <span class="pl-s"><span class="pl-pds">"</span>ignore<span class="pl-pds">"</span></span>
+                    <span class="pl-c"># Translate to ignore flag for this operator</span>
+                    to.push(<span class="pl-s"><span class="pl-pds">"</span>--ignore=<span class="pl-pse">#{</span><span class="pl-s1">value</span><span class="pl-pse"><span class="pl-s1">}</span></span><span class="pl-pds">"</span></span>)
+                <span class="pl-k">when</span> <span class="pl-s"><span class="pl-pds">"</span>word-regexp<span class="pl-pds">"</span></span>
+                    <span class="pl-c"># Translate to word-regexp flag for this operator</span>
+                    to.push(<span class="pl-s"><span class="pl-pds">"</span>-w<span class="pl-pds">"</span></span>)
+            <span class="pl-k">end</span>
+        <span class="pl-k">end</span>
+        <span class="pl-k">return</span> to.join(<span class="pl-s"><span class="pl-pds">"</span> <span class="pl-pds">"</span></span>)
+    <span class="pl-k">end</span>
+<span class="pl-k">end</span></pre></div>
+
+<div class="highlight highlight-source-ruby"><pre><span class="pl-c"># sec_profile.rb</span>
+
+<span class="pl-k">class</span> <span class="pl-en">SecProfile<span class="pl-e"> &lt; Zoom::SecurityProfile</span></span>
+    <span class="pl-k">def</span> <span class="pl-en">initialize</span>(
+        name <span class="pl-k">=</span> <span class="pl-c1">nil</span>,
+        operator <span class="pl-k">=</span> <span class="pl-c1">nil</span>,
+        flags <span class="pl-k">=</span> <span class="pl-c1">nil</span>,
+        before <span class="pl-k">=</span> <span class="pl-c1">nil</span>, <span class="pl-c"># Env vars, such as PATH</span>
+        after <span class="pl-k">=</span> <span class="pl-c1">nil</span> <span class="pl-c"># Follow up commands or redirection</span>
+    )
+        <span class="pl-c"># Only need the case statement if you don't want the default</span>
+        <span class="pl-c"># flags</span>
+        <span class="pl-k">case</span> <span class="pl-c1">Zoom</span>::<span class="pl-c1">ProfileManager</span>.default_profile
+            <span class="pl-k">when</span> <span class="pl-sr"><span class="pl-pds">/</span>^ack<span class="pl-sr">(-grep)</span>?$<span class="pl-pds">/</span></span>
+                flags <span class="pl-k">||=</span> <span class="pl-s"><span class="pl-pds">"</span>ack_flags_here<span class="pl-pds">"</span></span>
+            <span class="pl-k">when</span> <span class="pl-s"><span class="pl-pds">"</span>ag<span class="pl-pds">"</span></span>
+                flags <span class="pl-k">||=</span> <span class="pl-s"><span class="pl-pds">"</span>ag_flags_here<span class="pl-pds">"</span></span>
+            <span class="pl-k">when</span> <span class="pl-s"><span class="pl-pds">"</span>grep<span class="pl-pds">"</span></span>
+                flags <span class="pl-k">||=</span> <span class="pl-s"><span class="pl-pds">"</span>grep_flags_here<span class="pl-pds">"</span></span>
+            <span class="pl-k">when</span> <span class="pl-s"><span class="pl-pds">"</span>pt<span class="pl-pds">"</span></span>
+                flags <span class="pl-k">||=</span> <span class="pl-s"><span class="pl-pds">"</span>pt_flags_here<span class="pl-pds">"</span></span>
+        <span class="pl-k">end</span>
+        <span class="pl-k">super</span>(name, <span class="pl-c1">nil</span>, flags, before, after)
+        <span class="pl-smi">@taggable</span> <span class="pl-k">=</span> <span class="pl-c1">true</span>
     <span class="pl-k">end</span>
 <span class="pl-k">end</span></pre></div>
 
@@ -243,20 +319,24 @@ $ ln -s z <span class="pl-c1">test</span>
 $ ./test <span class="pl-c"># same as 'z --use test'</span></pre></div>
 
 <h2>
-<a id="penetration-testing" class="anchor" href="#penetration-testing" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Penetration testing</h2>
+<a id="interested-in-security" class="anchor" href="#interested-in-security" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Interested in security?</h2>
 
 <p>Zoom allows to you create profiles for commands other than
 ag/ack/grep/pt. This may make Zoom a friendly tool for Penetration
 Testers or Security Researchers who are looking for a simple way to
-store exploits. I've included a profile for searching for hard-coded
-passwords. The passwords profile has a hard-coded pattern so if you
-want to change the regex used, you can run the following command to
-change the code:</p>
+store exploits. I've included some example profiles for searching for
+hard-coded passwords or unsafe C/Java/Javascript/PHP/Python code.
+These profiles are not created by default with <code>z --rc</code>. To create
+them run <code>z --secprofs</code>.</p>
+
+<p>These profiles have a hard-coded pattern so if you want to change the
+regex used, you can run the following command to change the code:</p>
 
 <div class="highlight highlight-source-shell"><pre>$ gem open ruby-zoom</pre></div>
 
-<p>Navigate to <code>lib/zoom/profile/passwords.rb</code> to make changes. If you
-want the revert your changes, run the following command:</p>
+<p>Navigate to <code>lib/zoom/profile</code> directory and select a profile to make
+changes. If you want the revert your changes, run the following
+command:</p>
 
 <div class="highlight highlight-source-shell"><pre>$ gem pristine ruby-zoom</pre></div>
 
