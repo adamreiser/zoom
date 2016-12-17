@@ -1,0 +1,8 @@
+title: Zoom
+description: A wrapper tool for ag/ack/grep/pt
+google_analytics: 
+show_downloads: true
+theme: jekyll-theme-architect
+
+gems:
+  - jekyll-mentions
